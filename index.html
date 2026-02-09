@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>NOEsencias - Catálogo Aromanza 2026</title>
+    <style>
+        body { font-family: 'Georgia', serif; background-color: #f9fbf9; color: #2d4a22; text-align: center; }
+        header { padding: 50px; }
+        .logo { max-width: 200px; }
+        .frase { font-style: italic; color: #a68b5a; margin-bottom: 30px; }
+        .producto { border: 1px solid #dcdcdc; padding: 20px; display: inline-block; margin: 10px; border-radius: 8px; background: white; }
+        button { background-color: #2d4a22; color: white; border: none; padding: 10px 20px; cursor: pointer; border-radius: 5px; }
+        .carrito-flotante { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; padding: 15px; border-radius: 50px; text-decoration: none; font-weight: bold; box-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img src="tu-logo.png" alt="NOEsencias" class="logo">
+        <p class="frase">"La paz viene de adentro, no la busques afuera."</p>
+        <p>Bienvenidos a NOEsencias. Explorá el <strong>catálogo Aromanza 2026</strong>.</p>
+    </header>
+
+    <div id="tienda">
+        <div class="producto">
+            <h3>Sahumerio Aromanza</h3>
+            <p>Fragancia: Sándalo Hindu</p>
+            <p>Precio: $1500</p>
+            <button onclick="agregarAlCarrito('Sahumerio Sándalo', 1500)">Agregar al carrito</button>
+        </div>
+        
+        <div class="producto">
+            <h3>Perfume Textil</h3>
+            <p>Fragancia: Lavanda Real</p>
+            <p>Precio: $2800</p>
+            <button onclick="agregarAlCarrito('Perfume Lavanda', 2800)">Agregar al carrito</button>
+        </div>
+    </div>
+
+    <a href="#" id="btnWhatsapp" class="carrito-flotante" onclick="enviarPedido()">
+        🛒 Enviar pedido por WhatsApp
+    </a>
+
+    <script>
+        let carrito = [];
+
+        function agregarAlCarrito(nombre, precio) {
+            carrito.push({nombre, precio});
+            alert(nombre + " agregado correctamente");
+        }
+
+        function enviarPedido() {
+            let numero = "54911XXXXXXXX"; // TU NUMERO AQUÍ
+            let mensaje = "Hola NOEsencias! Quiero hacer el siguiente pedido:\n\n";
+            let total = 0;
+            
+            carrito.forEach(prod => {
+                mensaje += "- " + prod.nombre + " ($" + prod.precio + ")\n";
+                total += prod.precio;
+            });
+            
+            mensaje += "\nTotal: $" + total;
+            let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
