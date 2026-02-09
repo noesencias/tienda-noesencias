@@ -41,28 +41,58 @@
         🛒 Enviar pedido por WhatsApp
     </a>
 
-    <script>
-        let carrito = [];
+   <script>
+    // Esta es nuestra lista vacía donde se guardarán los productos
+    let carrito = [];
 
-        function agregarAlCarrito(nombre, precio) {
-            carrito.push({nombre, precio});
-            alert(nombre + " agregado correctamente");
+    function agregarAlCarrito(nombre, precio) {
+        // Creamos el objeto del producto
+        const producto = {
+            nombre: nombre,
+            precio: precio
+        };
+
+        // Lo sumamos a la lista
+        carrito.push(producto);
+
+        // Actualizamos el texto del botón de WhatsApp para mostrar cuántos lleva
+        actualizarBotonCarrito();
+
+        // Mostramos una confirmación visual sencilla
+        alert("✅ " + nombre + " se agregó al pedido.");
+        console.log("Contenido del carrito:", carrito);
+    }
+
+    function actualizarBotonCarrito() {
+        const btn = document.getElementById('btnWhatsapp');
+        if (carrito.length > 0) {
+            btn.innerHTML = "🛒 Enviar pedido (" + carrito.length + " productos)";
+            btn.style.display = "flex"; // Nos aseguramos que sea visible
+        }
+    }
+
+    function enviarPedido() {
+        if (carrito.length === 0) {
+            alert("Tu carrito está vacío. Agregá algún producto primero.");
+            return;
         }
 
-        function enviarPedido() {
-            let numero = "54911XXXXXXXX"; // TU NUMERO AQUÍ
-            let mensaje = "Hola NOEsencias! Quiero hacer el siguiente pedido:\n\n";
-            let total = 0;
-            
-            carrito.forEach(prod => {
-                mensaje += "- " + prod.nombre + " ($" + prod.precio + ")\n";
-                total += prod.precio;
-            });
-            
-            mensaje += "\nTotal: $" + total;
-            let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
-            window.open(url, '_blank');
-        }
-    </script>
-</body>
-</html>
+        let numero = "54911XXXXXXXX"; // IMPORTANTE: Poné tu número aquí (sin el +)
+        let mensaje = "Hola NOEsencias! 🌿\nQuiero realizar el siguiente pedido del Catálogo Aromanza 2026:\n\n";
+        let total = 0;
+        
+        carrito.forEach((prod, index) => {
+            mensaje += (index + 1) + ". " + prod.nombre + " - $" + prod.precio + "\n";
+            total += prod.precio;
+        });
+        
+        mensaje += "\n💰 *Total estimado: $" + total + "*";
+        mensaje += "\n\n¿Me confirman stock y formas de pago?";
+
+        // Codificamos el mensaje para que WhatsApp lo entienda
+        let url = "https://wa.me/" + numero + "?text=" + encodeURIComponent(mensaje);
+        
+        // Abrimos WhatsApp
+        window.open(url, '_blank');
+    }
+</script>
